@@ -1,19 +1,21 @@
 import css from './SearchBox.module.css';
-import { Formik, Form, Field } from 'formik';
 
 import { useDispatch } from 'react-redux';
 import { contactFilter } from '../../redux/filtersSlice';
+import { useState } from 'react';
 
 const SearchBox = () => {
   const dispatch = useDispatch();
 
+  const [inputValue, setInputValue] = useState('');
+
   const handleClear = () => {
-    document.querySelector('input[name="username"]').value = '';
+    setInputValue('');
     dispatch(contactFilter(''));
   };
   const handleSubmit = e => {
-    const filterAction = contactFilter(e.target.value);
-    dispatch(filterAction);
+    setInputValue(e.target.value);
+    dispatch(contactFilter(e.target.value));
   };
 
   return (
@@ -25,6 +27,7 @@ const SearchBox = () => {
         className={css.input}
         type="text"
         name="username"
+        value={inputValue}
         onChange={handleSubmit}
       />
 
